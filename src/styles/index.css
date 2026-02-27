@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #faf7f0;
+  --color-masters-green: #1a4731;
+  --color-masters-green-light: #2d6a4f;
+  --color-gold: #c9a84c;
+  --color-gold-light: #d4b96a;
+  --color-gold-muted: #e8d5a3;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
