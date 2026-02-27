@@ -37,7 +37,7 @@ const TRIP_DATA = {
       courseRating: 71.2,
       slopeRating: 130,
       foursomes: [
-        ['ryan-jones', 'mike-smith', 'dan-brown', 'chris-davis'],
+        { players: ['ryan-jones', 'mike-smith', 'dan-brown', 'chris-davis'] },
       ],
     },
     {
@@ -51,10 +51,10 @@ const TRIP_DATA = {
       courseRating: 69.1,
       slopeRating: 128,
       foursomes: [
-        ['ryan-jones', 'mike-smith', 'dan-brown', 'chris-davis'],
-        ['tom-wilson', 'jeff-martin', 'steve-clark', 'dave-taylor'],
-        ['pat-anderson', 'joe-thomas', 'mark-jackson', 'bill-white'],
-        ['jim-harris', 'bob-lewis', 'rick-walker', 'greg-hall'],
+        { players: ['ryan-jones', 'mike-smith', 'dan-brown', 'chris-davis'] },
+        { players: ['tom-wilson', 'jeff-martin', 'steve-clark', 'dave-taylor'] },
+        { players: ['pat-anderson', 'joe-thomas', 'mark-jackson', 'bill-white'] },
+        { players: ['jim-harris', 'bob-lewis', 'rick-walker', 'greg-hall'] },
       ],
     },
     {
@@ -68,10 +68,10 @@ const TRIP_DATA = {
       courseRating: 71.8,
       slopeRating: 134,
       foursomes: [
-        ['ryan-jones', 'tom-wilson', 'pat-anderson', 'jim-harris'],
-        ['mike-smith', 'jeff-martin', 'joe-thomas', 'bob-lewis'],
-        ['dan-brown', 'steve-clark', 'mark-jackson', 'rick-walker'],
-        ['chris-davis', 'dave-taylor', 'bill-white', 'greg-hall'],
+        { players: ['ryan-jones', 'tom-wilson', 'pat-anderson', 'jim-harris'] },
+        { players: ['mike-smith', 'jeff-martin', 'joe-thomas', 'bob-lewis'] },
+        { players: ['dan-brown', 'steve-clark', 'mark-jackson', 'rick-walker'] },
+        { players: ['chris-davis', 'dave-taylor', 'bill-white', 'greg-hall'] },
       ],
     },
     {
@@ -85,10 +85,10 @@ const TRIP_DATA = {
       courseRating: 69.5,
       slopeRating: 131,
       foursomes: [
-        ['ryan-jones', 'jeff-martin', 'mark-jackson', 'bob-lewis'],
-        ['mike-smith', 'tom-wilson', 'bill-white', 'rick-walker'],
-        ['dan-brown', 'dave-taylor', 'joe-thomas', 'greg-hall'],
-        ['chris-davis', 'steve-clark', 'pat-anderson', 'jim-harris'],
+        { players: ['ryan-jones', 'jeff-martin', 'mark-jackson', 'bob-lewis'] },
+        { players: ['mike-smith', 'tom-wilson', 'bill-white', 'rick-walker'] },
+        { players: ['dan-brown', 'dave-taylor', 'joe-thomas', 'greg-hall'] },
+        { players: ['chris-davis', 'steve-clark', 'pat-anderson', 'jim-harris'] },
       ],
     },
     {
@@ -102,10 +102,10 @@ const TRIP_DATA = {
       courseRating: 73.2,
       slopeRating: 139,
       foursomes: [
-        ['ryan-jones', 'steve-clark', 'joe-thomas', 'greg-hall'],
-        ['mike-smith', 'dave-taylor', 'mark-jackson', 'jim-harris'],
-        ['dan-brown', 'jeff-martin', 'pat-anderson', 'rick-walker'],
-        ['chris-davis', 'tom-wilson', 'bob-lewis', 'bill-white'],
+        { players: ['ryan-jones', 'steve-clark', 'joe-thomas', 'greg-hall'] },
+        { players: ['mike-smith', 'dave-taylor', 'mark-jackson', 'jim-harris'] },
+        { players: ['dan-brown', 'jeff-martin', 'pat-anderson', 'rick-walker'] },
+        { players: ['chris-davis', 'tom-wilson', 'bob-lewis', 'bill-white'] },
       ],
     },
   ],

@@ -1,7 +1,7 @@
 import { computeCourseHandicap } from '../../lib/leaderboard';
 
 export default function RoundTable({ round, golfers, scores }) {
-  const participants = round.foursomes.flat();
+  const participants = round.foursomes.flatMap((g) => g.players);
 
   const rows = golfers
     .filter((g) => participants.includes(g.id))

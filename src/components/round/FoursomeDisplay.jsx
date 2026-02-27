@@ -14,7 +14,7 @@ export default function FoursomeDisplay({ foursomes, golfers }) {
             Group {idx + 1}
           </h4>
           <ul className="space-y-1">
-            {group.map((golferId) => (
+            {group.players.map((golferId) => (
               <li key={golferId} className="text-sm font-body">
                 {golferMap[golferId]?.name || golferId}
               </li>

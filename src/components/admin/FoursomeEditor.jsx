@@ -12,18 +12,18 @@ export default function FoursomeEditor({ trip }) {
   const foursomes = edits[selectedRoundId] || round?.foursomes || [];
 
   function handleSwap(groupIdx, slotIdx, newGolferId) {
-    const current = foursomes.map((g) => [...g]);
-    const oldGolferId = current[groupIdx][slotIdx];
+    const current = foursomes.map((g) => ({ players: [...g.players] }));
+    const oldGolferId = current[groupIdx].players[slotIdx];
 
     // Find where the new golfer currently is and swap
     for (let gi = 0; gi < current.length; gi++) {
-      for (let si = 0; si < current[gi].length; si++) {
-        if (current[gi][si] === newGolferId) {
-          current[gi][si] = oldGolferId;
+      for (let si = 0; si < current[gi].players.length; si++) {
+        if (current[gi].players[si] === newGolferId) {
+          current[gi].players[si] = oldGolferId;
         }
       }
     }
-    current[groupIdx][slotIdx] = newGolferId;
+    current[groupIdx].players[slotIdx] = newGolferId;
 
     setEdits((prev) => ({ ...prev, [selectedRoundId]: current }));
   }
@@ -83,7 +83,7 @@ export default function FoursomeEditor({ trip }) {
               Group {groupIdx + 1}
             </h4>
             <div className="space-y-2">
-              {group.map((golferId, slotIdx) => (
+              {group.players.map((golferId, slotIdx) => (
                 <select
                   key={slotIdx}
                   value={golferId}

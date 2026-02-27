@@ -12,7 +12,7 @@ export default function ScoreGrid({ trip, scores }) {
   const rounds = [...trip.rounds].sort((a, b) => a.order - b.order);
 
   function isParticipant(golferId, round) {
-    return round.foursomes.flat().includes(golferId);
+    return round.foursomes.flatMap((g) => g.players).includes(golferId);
   }
 
   function getCellValue(golferId, roundId) {
