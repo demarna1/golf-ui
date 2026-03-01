@@ -1,8 +1,11 @@
 import {
   doc,
+  collection,
   onSnapshot,
   updateDoc,
   setDoc,
+  deleteDoc,
+  getDocs,
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -53,4 +56,24 @@ export function createTrip(tripId, tripData) {
 
 export function setActiveTripId(tripId) {
   return setDoc(doc(db, 'config', 'activeTripId'), { tripId });
+}
+
+export async function listTrips() {
+  const snapshot = await getDocs(collection(db, 'trips'));
+  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+export function subscribeTrip(tripId, callback) {
+  const tripRef = doc(db, 'trips', tripId);
+  return onSnapshot(tripRef, (snap) => {
+    if (!snap.exists()) {
+      callback(null);
+      return;
+    }
+    callback({ id: snap.id, ...snap.data() });
+  });
+}
+
+export function deleteTrip(tripId) {
+  return deleteDoc(doc(db, 'trips', tripId));
 }

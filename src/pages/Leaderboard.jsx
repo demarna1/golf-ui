@@ -36,14 +36,14 @@ export default function Leaderboard() {
             className={`px-3 py-1.5 text-sm font-medium font-body transition-colors
               ${viewMode === 'gross' ? 'bg-masters-green text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
           >
-            Gross
+            True
           </button>
           <button
             onClick={() => toggleView('net')}
             className={`px-3 py-1.5 text-sm font-medium font-body transition-colors border-l border-gray-300
               ${viewMode === 'net' ? 'bg-masters-green text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
           >
-            Net
+            HDCP
           </button>
         </div>
       </div>

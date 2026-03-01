@@ -44,6 +44,11 @@ export default function RoundDetail() {
             })}
             {' '}&middot; Par {round.par} &middot; Rating {round.courseRating} / Slope {round.slopeRating}
           </p>
+          {round.address && (
+            <p className="text-sm text-gray-400 font-body mt-0.5">
+              {round.address}
+            </p>
+          )}
         </div>
         {!round.countsToTotal && <Badge variant="exhibition">Exhibition</Badge>}
       </div>

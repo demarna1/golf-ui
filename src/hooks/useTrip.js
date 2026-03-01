@@ -1,16 +1,8 @@
-import { useState, useEffect } from 'react';
-import { subscribeActiveTrip } from '../firebase/tripService';
+import { useContext } from 'react';
+import { TripContext } from '../context/TripContext';
 
 export function useTrip() {
-  const [trip, setTrip] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    return subscribeActiveTrip((data) => {
-      setTrip(data);
-      setLoading(false);
-    });
-  }, []);
-
-  return { trip, loading };
+  const ctx = useContext(TripContext);
+  if (!ctx) throw new Error('useTrip must be used within TripProvider');
+  return ctx;
 }

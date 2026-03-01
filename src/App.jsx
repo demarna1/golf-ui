@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { TripProvider } from './context/TripContext';
 import { useAuth } from './hooks/useAuth';
 import PageShell from './components/layout/PageShell';
 import Leaderboard from './pages/Leaderboard';
@@ -20,6 +21,7 @@ function ProtectedRoute({ children }) {
 export default function App() {
   return (
     <AuthProvider>
+      <TripProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<PageShell />}>
@@ -39,6 +41,7 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </TripProvider>
     </AuthProvider>
   );
 }

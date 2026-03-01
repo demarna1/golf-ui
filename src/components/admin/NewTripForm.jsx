@@ -6,6 +6,7 @@ const EMPTY_ROUND = {
   name: '',
   shortName: '',
   date: '',
+  address: '',
   par: 72,
   courseRating: 72.0,
   slopeRating: 113,
@@ -16,14 +17,14 @@ const EMPTY_ROUND = {
 export default function NewTripForm() {
   const [form, setForm] = useState({
     name: '',
-    tagline: '',
     location: '',
     year: new Date().getFullYear() + 1,
     startDate: '',
     endDate: '',
   });
-  const [golferNames, setGolferNames] = useState('');
+  const [golferRows, setGolferRows] = useState([{ name: '', handicapIndex: 0 }]);
   const [rounds, setRounds] = useState([{ ...EMPTY_ROUND }]);
+  const [setActive, setSetActive] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -53,14 +54,12 @@ export default function NewTripForm() {
     setSaving(true);
     setError(null);
     try {
-      const golfers = golferNames
-        .split('\n')
-        .map((n) => n.trim())
-        .filter(Boolean)
-        .map((name, i) => ({
-          id: name.toLowerCase().replace(/\s+/g, '-'),
-          name,
-          handicapIndex: 0,
+      const golfers = golferRows
+        .filter((g) => g.name.trim())
+        .map((g) => ({
+          id: g.name.trim().toLowerCase().replace(/\s+/g, '-'),
+          name: g.name.trim(),
+          handicapIndex: Number(g.handicapIndex) || 0,
         }));
 
       const tripRounds = rounds.map((r, i) => ({
@@ -81,7 +80,9 @@ export default function NewTripForm() {
       };
 
       await createTrip(tripId, tripData);
-      await setActiveTripId(tripId);
+      if (setActive) {
+        await setActiveTripId(tripId);
+      }
       setSuccess(true);
     } catch (err) {
       setError(err.message);
@@ -94,7 +95,9 @@ export default function NewTripForm() {
     return (
       <div className="text-center py-8">
         <p className="text-lg font-heading text-masters-green font-semibold">Trip created!</p>
-        <p className="text-sm text-gray-500 mt-2">The new trip is now active.</p>
+        <p className="text-sm text-gray-500 mt-2">
+          {setActive ? 'The new trip is now active.' : 'Trip created. You can set it active from the Manage Trips tab.'}
+        </p>
       </div>
     );
   }
@@ -109,11 +112,6 @@ export default function NewTripForm() {
         <label className="text-sm sm:col-span-2">
           <span className="text-gray-500">Trip Name</span>
           <input type="text" required value={form.name} onChange={(e) => handleFormChange('name', e.target.value)}
-            className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green" />
-        </label>
-        <label className="text-sm sm:col-span-2">
-          <span className="text-gray-500">Tagline</span>
-          <input type="text" value={form.tagline} onChange={(e) => handleFormChange('tagline', e.target.value)}
             className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green" />
         </label>
         <label className="text-sm">
@@ -138,16 +136,55 @@ export default function NewTripForm() {
         </label>
       </div>
 
-      <label className="text-sm block">
-        <span className="text-gray-500">Golfers (one name per line)</span>
-        <textarea
-          rows={6}
-          value={golferNames}
-          onChange={(e) => setGolferNames(e.target.value)}
-          placeholder={"Ryan Jones\nMike Smith\n..."}
-          className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-        />
-      </label>
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-sm font-semibold text-gray-700">Golfers</h4>
+          <Button type="button" variant="ghost" size="sm" onClick={() => setGolferRows((prev) => [...prev, { name: '', handicapIndex: 0 }])}>
+            + Add Golfer
+          </Button>
+        </div>
+        <div className="space-y-2">
+          {golferRows.map((golfer, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <span className="text-xs text-gray-400 font-mono w-5">{idx + 1}</span>
+              <input
+                type="text"
+                placeholder="Name"
+                value={golfer.name}
+                onChange={(e) => setGolferRows((prev) => {
+                  const next = [...prev];
+                  next[idx] = { ...next[idx], name: e.target.value };
+                  return next;
+                })}
+                className="flex-1 rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+              />
+              <label className="text-xs text-gray-500 flex items-center gap-1">
+                HC
+                <input
+                  type="number"
+                  step="0.1"
+                  value={golfer.handicapIndex}
+                  onChange={(e) => setGolferRows((prev) => {
+                    const next = [...prev];
+                    next[idx] = { ...next[idx], handicapIndex: e.target.value };
+                    return next;
+                  })}
+                  className="w-16 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+              {golferRows.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setGolferRows((prev) => prev.filter((_, i) => i !== idx))}
+                  className="text-red-400 hover:text-red-600 text-sm px-1"
+                >
+                  &times;
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div>
         <div className="flex items-center justify-between mb-3">
@@ -169,6 +206,11 @@ export default function NewTripForm() {
                 <label className="text-sm col-span-2 sm:col-span-3">
                   <span className="text-gray-500">Course Name</span>
                   <input type="text" value={round.name} onChange={(e) => handleRoundChange(idx, 'name', e.target.value)}
+                    className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green" />
+                </label>
+                <label className="text-sm col-span-2 sm:col-span-3">
+                  <span className="text-gray-500">Address</span>
+                  <input type="text" value={round.address} onChange={(e) => handleRoundChange(idx, 'address', e.target.value)}
                     className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green" />
                 </label>
                 <label className="text-sm">
@@ -207,9 +249,20 @@ export default function NewTripForm() {
         </div>
       </div>
 
-      <Button type="submit" disabled={saving} size="lg" className="w-full sm:w-auto">
-        {saving ? 'Creating...' : 'Create Trip & Set Active'}
-      </Button>
+      <div className="flex items-center gap-4">
+        <Button type="submit" disabled={saving} size="lg">
+          {saving ? 'Creating...' : 'Create Trip'}
+        </Button>
+        <label className="text-sm flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={setActive}
+            onChange={(e) => setSetActive(e.target.checked)}
+            className="rounded border-gray-300 text-masters-green focus:ring-masters-green"
+          />
+          Set as active trip
+        </label>
+      </div>
     </form>
   );
 }

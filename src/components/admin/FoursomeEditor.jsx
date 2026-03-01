@@ -12,7 +12,7 @@ export default function FoursomeEditor({ trip }) {
   const foursomes = edits[selectedRoundId] || round?.foursomes || [];
 
   function handleSwap(groupIdx, slotIdx, newGolferId) {
-    const current = foursomes.map((g) => ({ players: [...g.players] }));
+    const current = foursomes.map((g) => ({ players: [...g.players], teeTime: g.teeTime || '' }));
     const oldGolferId = current[groupIdx].players[slotIdx];
 
     // Find where the new golfer currently is and swap
@@ -79,9 +79,23 @@ export default function FoursomeEditor({ trip }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {foursomes.map((group, groupIdx) => (
           <div key={groupIdx} className="bg-white rounded-lg border border-gray-200 p-4">
-            <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Group {groupIdx + 1}
-            </h4>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Group {groupIdx + 1}
+              </h4>
+              <input
+                type="text"
+                placeholder="Tee time"
+                value={group.teeTime || ''}
+                onChange={(e) => {
+                  const updated = foursomes.map((g, i) =>
+                    i === groupIdx ? { ...g, teeTime: e.target.value } : g
+                  );
+                  setEdits((prev) => ({ ...prev, [selectedRoundId]: updated }));
+                }}
+                className="w-24 text-right rounded border border-gray-300 px-2 py-1 text-xs font-mono focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+              />
+            </div>
             <div className="space-y-2">
               {group.players.map((golferId, slotIdx) => (
                 <select

@@ -35,6 +35,11 @@ export default function Schedule() {
                   })}
                   {' '}&middot; Par {round.par}
                 </p>
+                {round.address && (
+                  <p className="text-sm text-gray-400 font-body mt-0.5">
+                    {round.address}
+                  </p>
+                )}
               </div>
               {!round.countsToTotal && (
                 <Badge variant="exhibition">Exhibition</Badge>

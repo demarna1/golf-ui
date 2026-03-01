@@ -12,6 +12,7 @@ import FoursomeEditor from '../components/admin/FoursomeEditor';
 import GolferManager from '../components/admin/GolferManager';
 import TripSettingsForm from '../components/admin/TripSettingsForm';
 import NewTripForm from '../components/admin/NewTripForm';
+import TripManager from '../components/admin/TripManager';
 
 const TABS = [
   { id: 'scores', label: 'Scores' },
@@ -19,12 +20,13 @@ const TABS = [
   { id: 'foursomes', label: 'Foursomes' },
   { id: 'golfers', label: 'Golfers' },
   { id: 'settings', label: 'Settings' },
+  { id: 'trips', label: 'Manage Trips' },
   { id: 'new-trip', label: 'New Trip' },
 ];
 
 export default function Admin() {
   const user = useAuth();
-  const { trip, loading: tripLoading } = useTrip();
+  const { activeTrip: trip, loading: tripLoading } = useTrip();
   const { scores, loading: scoresLoading } = useScores(trip?.id);
   const [activeTab, setActiveTab] = useState('scores');
 
@@ -58,10 +60,13 @@ export default function Admin() {
         {activeTab === 'settings' && trip && (
           <TripSettingsForm trip={trip} />
         )}
+        {activeTab === 'trips' && (
+          <TripManager activeTrip={trip} />
+        )}
         {activeTab === 'new-trip' && (
           <NewTripForm />
         )}
-        {!trip && activeTab !== 'new-trip' && (
+        {!trip && !['new-trip', 'trips'].includes(activeTab) && (
           <p className="text-gray-500 text-center py-8">
             No active trip. Create one in the "New Trip" tab.
           </p>

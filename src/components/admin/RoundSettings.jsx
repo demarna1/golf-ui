@@ -26,6 +26,7 @@ export default function RoundSettings({ trip }) {
         courseRating: Number(getVal(r.id, 'courseRating')) || r.courseRating,
         slopeRating: Number(getVal(r.id, 'slopeRating')) || r.slopeRating,
         countsToTotal: getVal(r.id, 'countsToTotal'),
+        address: getVal(r.id, 'address') ?? r.address ?? '',
       }));
       await updateRound(trip.id, updatedRounds);
       setEdits({});
@@ -65,6 +66,15 @@ export default function RoundSettings({ trip }) {
                 Counts to total
               </label>
             </div>
+            <label className="text-sm block mb-3">
+              <span className="text-gray-500">Address</span>
+              <input
+                type="text"
+                value={getVal(round.id, 'address') ?? ''}
+                onChange={(e) => handleChange(round.id, 'address', e.target.value)}
+                className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+              />
+            </label>
             <div className="grid grid-cols-3 gap-3">
               <label className="text-sm">
                 <span className="text-gray-500">Par</span>

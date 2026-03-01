@@ -5,7 +5,6 @@ import Button from '../ui/Button';
 export default function TripSettingsForm({ trip }) {
   const [form, setForm] = useState({
     name: trip.name || '',
-    tagline: trip.tagline || '',
     location: trip.location || '',
     year: trip.year || '',
   });
@@ -24,7 +23,6 @@ export default function TripSettingsForm({ trip }) {
     try {
       await updateTripSettings(trip.id, {
         name: form.name,
-        tagline: form.tagline,
         location: form.location,
         year: Number(form.year),
       });
@@ -55,15 +53,6 @@ export default function TripSettingsForm({ trip }) {
             type="text"
             value={form.name}
             onChange={(e) => handleChange('name', e.target.value)}
-            className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-          />
-        </label>
-        <label className="text-sm sm:col-span-2">
-          <span className="text-gray-500">Tagline</span>
-          <input
-            type="text"
-            value={form.tagline}
-            onChange={(e) => handleChange('tagline', e.target.value)}
             className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
           />
         </label>
