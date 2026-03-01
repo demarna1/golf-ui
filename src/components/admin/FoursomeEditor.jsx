@@ -83,18 +83,11 @@ export default function FoursomeEditor({ trip }) {
               <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Group {groupIdx + 1}
               </h4>
-              <input
-                type="text"
-                placeholder="Tee time"
-                value={group.teeTime || ''}
-                onChange={(e) => {
-                  const updated = foursomes.map((g, i) =>
-                    i === groupIdx ? { ...g, teeTime: e.target.value } : g
-                  );
-                  setEdits((prev) => ({ ...prev, [selectedRoundId]: updated }));
-                }}
-                className="w-24 text-right rounded border border-gray-300 px-2 py-1 text-xs font-mono focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-              />
+              {group.teeTime && (
+                <span className="text-xs font-mono text-gray-500">
+                  {group.teeTime}
+                </span>
+              )}
             </div>
             <div className="space-y-2">
               {group.players.map((golferId, slotIdx) => (

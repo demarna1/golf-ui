@@ -2,6 +2,27 @@ import { useState } from 'react';
 import { updateRound } from '../../firebase/tripService';
 import Button from '../ui/Button';
 
+function computeTeeTime(firstTeeTime, groupIndex) {
+  const match = firstTeeTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return firstTeeTime;
+
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3].toUpperCase();
+
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+
+  const totalMinutes = hours * 60 + minutes + groupIndex * 8;
+  let h = Math.floor(totalMinutes / 60) % 24;
+  const m = totalMinutes % 60;
+  const p = h >= 12 ? 'PM' : 'AM';
+  if (h > 12) h -= 12;
+  if (h === 0) h = 12;
+
+  return `${h}:${String(m).padStart(2, '0')} ${p}`;
+}
+
 export default function RoundSettings({ trip }) {
   const [edits, setEdits] = useState({});
   const [saving, setSaving] = useState(false);
@@ -20,16 +41,26 @@ export default function RoundSettings({ trip }) {
     setSaving(true);
     setError(null);
     try {
-      const updatedRounds = trip.rounds.map((r) => ({
-        ...r,
-        name: getVal(r.id, 'name') || r.name,
-        shortName: getVal(r.id, 'shortName') || r.shortName,
-        par: Number(getVal(r.id, 'par')) || r.par,
-        courseRating: Number(getVal(r.id, 'courseRating')) || r.courseRating,
-        slopeRating: Number(getVal(r.id, 'slopeRating')) || r.slopeRating,
-        countsToTotal: getVal(r.id, 'countsToTotal'),
-        address: getVal(r.id, 'address') ?? r.address ?? '',
-      }));
+      const updatedRounds = trip.rounds.map((r) => {
+        const firstTeeTime = getVal(r.id, 'firstTeeTime') ?? r.firstTeeTime ?? '';
+        const foursomes = (r.foursomes || []).map((g, i) => ({
+          ...g,
+          teeTime: firstTeeTime ? computeTeeTime(firstTeeTime, i) : g.teeTime,
+        }));
+        return {
+          ...r,
+          name: getVal(r.id, 'name') || r.name,
+          shortName: getVal(r.id, 'shortName') || r.shortName,
+          date: getVal(r.id, 'date') || r.date,
+          firstTeeTime,
+          par: Number(getVal(r.id, 'par')) || r.par,
+          courseRating: Number(getVal(r.id, 'courseRating')) || r.courseRating,
+          slopeRating: Number(getVal(r.id, 'slopeRating')) || r.slopeRating,
+          countsToTotal: getVal(r.id, 'countsToTotal'),
+          address: getVal(r.id, 'address') ?? r.address ?? '',
+          foursomes,
+        };
+      });
       await updateRound(trip.id, updatedRounds);
       setEdits({});
     } catch (err) {
@@ -84,6 +115,27 @@ export default function RoundSettings({ trip }) {
                   type="text"
                   value={getVal(round.id, 'shortName') ?? ''}
                   onChange={(e) => handleChange(round.id, 'shortName', e.target.value)}
+                  className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <label className="text-sm">
+                <span className="text-gray-500">Date</span>
+                <input
+                  type="date"
+                  value={getVal(round.id, 'date') || ''}
+                  onChange={(e) => handleChange(round.id, 'date', e.target.value)}
+                  className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="text-gray-500">First Tee Time</span>
+                <input
+                  type="text"
+                  placeholder="e.g. 8:30 AM"
+                  value={getVal(round.id, 'firstTeeTime') ?? ''}
+                  onChange={(e) => handleChange(round.id, 'firstTeeTime', e.target.value)}
                   className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
                 />
               </label>

@@ -36,6 +36,7 @@ const TRIP_DATA = {
       courseRating: 70.7,
       slopeRating: 138,
       address: '9000 N Ocean Blvd, Myrtle Beach, SC 29572',
+      firstTeeTime: '9:00 AM',
       foursomes: [
         { players: ['noah-demarco', 'ryan-jones', 'jack-hall', 'john-benson'], teeTime: '9:00 AM' },
       ],
@@ -51,6 +52,7 @@ const TRIP_DATA = {
       courseRating: 69.1,
       slopeRating: 128,
       address: '4900 National Dr, Myrtle Beach, SC 29579',
+      firstTeeTime: '9:11 AM',
       foursomes: [
         { players: ['ryan-jones', 'noah-demarco', 'pat-mccaughey', 'jonathan-hale'], teeTime: '9:11 AM' },
         { players: ['cameron-fels', 'jack-hall', 'john-benson', 'matt-bay'], teeTime: '9:19 AM' },
@@ -69,6 +71,7 @@ const TRIP_DATA = {
       courseRating: 70.2,
       slopeRating: 127,
       address: '6000 River Club Dr, Pawleys Island, SC 29585',
+      firstTeeTime: '8:41 AM',
       foursomes: [
         { players: ['ryan-jones', 'cameron-fels', 'richie-morris', 'ryan-bobbit'], teeTime: '8:41 AM' },
         { players: ['noah-demarco', 'jack-hall', 'kevin-geneva', 'van-ly'], teeTime: '8:49 AM' },
@@ -87,6 +90,7 @@ const TRIP_DATA = {
       courseRating: 70.1,
       slopeRating: 126,
       address: '1000 Wild Wing Blvd, Conway, SC 29526',
+      firstTeeTime: '8:15 AM',
       foursomes: [
         { players: ['ryan-jones', 'jack-hall', 'danny-boileau', 'jason-de-leon'], teeTime: '8:15 AM' },
         { players: ['noah-demarco', 'cameron-fels', 'taylor-standiford', 'ryan-bobbit'], teeTime: '8:23 AM' },
@@ -105,6 +109,7 @@ const TRIP_DATA = {
       courseRating: 70.5,
       slopeRating: 130,
       address: '8700 Golf Village Ln, Myrtle Beach, SC 29572',
+      firstTeeTime: '8:30 AM',
       foursomes: [
         { players: ['ryan-jones', 'john-benson', 'taylor-standiford', 'van-ly'], teeTime: '8:30 AM' },
         { players: ['noah-demarco', 'matt-bay', 'danny-boileau', 'eugene-flotteron'], teeTime: '8:38 AM' },
