@@ -25,8 +25,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<PageShell />}>
-            <Route path="/" element={<Leaderboard />} />
-            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/" element={<Schedule />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/rounds/:courseId" element={<RoundDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route

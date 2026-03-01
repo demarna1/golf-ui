@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/', label: 'Leaderboard' },
-  { to: '/schedule', label: 'Schedule' },
+  { to: '/', label: 'Schedule' },
+  { to: '/leaderboard', label: 'Leaderboard' },
 ];
 
 export default function NavBar() {

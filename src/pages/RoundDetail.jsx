@@ -20,14 +20,14 @@ export default function RoundDetail() {
     return (
       <div className="text-center py-12">
         <p className="text-gray-500 mb-4">Round not found.</p>
-        <Link to="/schedule" className="text-masters-green hover:underline">Back to schedule</Link>
+        <Link to="/" className="text-masters-green hover:underline">Back to schedule</Link>
       </div>
     );
   }
 
   return (
     <div>
-      <Link to="/schedule" className="text-sm text-gray-500 hover:text-masters-green mb-3 inline-block">
+      <Link to="/" className="text-sm text-gray-500 hover:text-masters-green mb-3 inline-block">
         &larr; Schedule
       </Link>
 
