@@ -22,6 +22,8 @@ export default function RoundSettings({ trip }) {
     try {
       const updatedRounds = trip.rounds.map((r) => ({
         ...r,
+        name: getVal(r.id, 'name') || r.name,
+        shortName: getVal(r.id, 'shortName') || r.shortName,
         par: Number(getVal(r.id, 'par')) || r.par,
         courseRating: Number(getVal(r.id, 'courseRating')) || r.courseRating,
         slopeRating: Number(getVal(r.id, 'slopeRating')) || r.slopeRating,
@@ -55,7 +57,7 @@ export default function RoundSettings({ trip }) {
         {trip.rounds.map((round) => (
           <div key={round.id} className="bg-white rounded-lg border border-gray-200 p-4">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-medium">{round.name}</h4>
+              <span className="text-xs font-semibold text-gray-500 uppercase">Round {round.order}</span>
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -64,6 +66,26 @@ export default function RoundSettings({ trip }) {
                   className="rounded border-gray-300 text-masters-green focus:ring-masters-green"
                 />
                 Counts to total
+              </label>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+              <label className="text-sm sm:col-span-2">
+                <span className="text-gray-500">Course Name</span>
+                <input
+                  type="text"
+                  value={getVal(round.id, 'name')}
+                  onChange={(e) => handleChange(round.id, 'name', e.target.value)}
+                  className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="text-gray-500">Short Name</span>
+                <input
+                  type="text"
+                  value={getVal(round.id, 'shortName') ?? ''}
+                  onChange={(e) => handleChange(round.id, 'shortName', e.target.value)}
+                  className="mt-1 block w-full rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
               </label>
             </div>
             <label className="text-sm block mb-3">

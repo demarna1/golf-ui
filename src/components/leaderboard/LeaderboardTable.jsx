@@ -12,7 +12,7 @@ export default function LeaderboardTable({ standings, rounds, viewMode }) {
             <th className="px-3 py-2.5 text-left font-semibold w-8">#</th>
             <th className="px-3 py-2.5 text-left font-semibold">Player</th>
             {countingRounds.map((r) => (
-              <th key={r.id} className="px-3 py-2.5 text-center font-semibold whitespace-nowrap">
+              <th key={r.id} className="px-3 py-2.5 text-center font-semibold">
                 {r.shortName}
               </th>
             ))}
@@ -22,7 +22,7 @@ export default function LeaderboardTable({ standings, rounds, viewMode }) {
             {exhibitionRounds.map((r) => (
               <th
                 key={r.id}
-                className="px-3 py-2.5 text-center font-semibold text-white/50 whitespace-nowrap"
+                className="px-3 py-2.5 text-center font-semibold text-white/50"
               >
                 {r.shortName}
               </th>
@@ -49,12 +49,12 @@ export default function LeaderboardTable({ standings, rounds, viewMode }) {
                 {countingRounds.map((r) => {
                   const s = row.roundScores[r.id];
                   return (
-                    <td key={r.id} className="px-3 py-2.5 text-center font-mono">
+                    <td key={r.id} className="px-3 py-2.5 text-center font-mono whitespace-nowrap">
                       {s?.display ?? '—'}
                     </td>
                   );
                 })}
-                <td className="px-3 py-2.5 text-center font-mono font-semibold bg-gold/10">
+                <td className="px-3 py-2.5 text-center font-mono font-semibold bg-gold/10 whitespace-nowrap">
                   {row.total !== null ? (
                     <>
                       {row.total}{' '}
@@ -71,7 +71,7 @@ export default function LeaderboardTable({ standings, rounds, viewMode }) {
                   return (
                     <td
                       key={r.id}
-                      className="px-3 py-2.5 text-center font-mono text-gray-400"
+                      className="px-3 py-2.5 text-center font-mono text-gray-400 whitespace-nowrap"
                     >
                       {s?.display ?? '—'}
                     </td>
