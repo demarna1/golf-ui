@@ -16,7 +16,7 @@ export default function RoundTable({ round, golfers, scores }) {
       );
       const net = gross !== null ? gross - ch : null;
 
-      return { golfer, gross, net, courseHandicap: ch };
+      return { golfer, gross, net };
     })
     .sort((a, b) => {
       if (a.gross === null && b.gross === null) return 0;
@@ -30,12 +30,11 @@ export default function RoundTable({ round, golfers, scores }) {
       <table className="w-full text-sm font-body">
         <thead>
           <tr className="bg-masters-green text-white">
-            <th className="px-3 py-2.5 text-left font-semibold">#</th>
+            <th className="w-8 px-3 py-2.5 text-left font-semibold">#</th>
             <th className="px-3 py-2.5 text-left font-semibold">Player</th>
-            <th className="px-3 py-2.5 text-center font-semibold">Handicap</th>
-            <th className="px-3 py-2.5 text-center font-semibold">Course HC</th>
-            <th className="px-3 py-2.5 text-center font-semibold">Gross</th>
-            <th className="px-3 py-2.5 text-center font-semibold">Net</th>
+            <th className="w-[18%] px-3 py-2.5 text-center font-semibold">Score</th>
+            <th className="w-[18%] px-3 py-2.5 text-center font-semibold">Handicap</th>
+            <th className="w-[18%] px-3 py-2.5 text-center font-semibold">Handicap-Adjusted</th>
           </tr>
         </thead>
         <tbody>
@@ -50,14 +49,11 @@ export default function RoundTable({ round, golfers, scores }) {
               <td className="px-3 py-2.5 font-medium whitespace-nowrap">
                 {row.golfer.name}
               </td>
-              <td className="px-3 py-2.5 text-center font-mono">
-                {row.golfer.handicapIndex.toFixed(1)}
-              </td>
-              <td className="px-3 py-2.5 text-center font-mono">
-                {row.courseHandicap}
-              </td>
               <td className="px-3 py-2.5 text-center font-mono font-semibold">
                 {row.gross ?? '—'}
+              </td>
+              <td className="px-3 py-2.5 text-center font-mono">
+                {row.golfer.handicapIndex.toFixed(1)}
               </td>
               <td className="px-3 py-2.5 text-center font-mono">
                 {row.net ?? '—'}

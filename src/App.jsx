@@ -8,6 +8,7 @@ import Schedule from './pages/Schedule';
 import RoundDetail from './pages/RoundDetail';
 import AdminLogin from './pages/AdminLogin';
 import Admin from './pages/Admin';
+import Bracket from './pages/Bracket';
 import NotFound from './pages/NotFound';
 import Spinner from './components/ui/Spinner';
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route element={<PageShell />}>
             <Route path="/" element={<Schedule />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/bracket" element={<Bracket />} />
             <Route path="/rounds/:courseId" element={<RoundDetail />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route

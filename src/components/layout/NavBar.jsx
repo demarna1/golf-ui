@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 const links = [
   { to: '/', label: 'Schedule' },
   { to: '/leaderboard', label: 'Leaderboard' },
+  { to: '/bracket', label: 'Bracket' },
 ];
 
 export default function NavBar() {

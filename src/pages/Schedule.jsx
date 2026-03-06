@@ -1,35 +1,23 @@
 import { useTrip } from '../hooks/useTrip';
+import { useScores } from '../hooks/useScores';
 import FoursomeDisplay from '../components/round/FoursomeDisplay';
 import Card from '../components/ui/Card';
 import Spinner from '../components/ui/Spinner';
 import { Link } from 'react-router-dom';
 
-function isRoundStarted(round) {
-  const firstTeeTime = round.firstTeeTime || round.foursomes?.[0]?.teeTime;
-  if (!firstTeeTime || !round.date) return false;
-
-  // Parse tee time like "9:11 AM"
-  const match = firstTeeTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) return false;
-
-  let hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
-  const period = match[3].toUpperCase();
-
-  if (period === 'PM' && hours !== 12) hours += 12;
-  if (period === 'AM' && hours === 12) hours = 0;
-
-  const roundStart = new Date(`${round.date}T00:00:00`);
-  roundStart.setHours(hours, minutes, 0, 0);
-
-  const twoHoursAfter = new Date(roundStart.getTime() + 2 * 60 * 60 * 1000);
-  return new Date() >= twoHoursAfter;
+function isRoundComplete(round, golfers, scores) {
+  if (!golfers || golfers.length === 0) return false;
+  return golfers.every((golfer) => {
+    const key = `${round.id}_${golfer.id}`;
+    return scores[key]?.gross != null;
+  });
 }
 
 export default function Schedule() {
-  const { trip, loading } = useTrip();
+  const { trip, loading: tripLoading } = useTrip();
+  const { scores, loading: scoresLoading } = useScores(trip?.id);
 
-  if (loading) return <Spinner />;
+  if (tripLoading || scoresLoading) return <Spinner />;
   if (!trip) return <p className="text-center text-gray-500 py-12">No active trip found.</p>;
 
   const sortedRounds = [...trip.rounds].sort((a, b) => a.order - b.order);
@@ -39,7 +27,7 @@ export default function Schedule() {
       <h2 className="font-heading text-xl font-semibold text-masters-green mb-4">Schedule</h2>
       <div className="space-y-6">
         {sortedRounds.map((round) => {
-          const started = isRoundStarted(round);
+          const started = isRoundComplete(round, trip.golfers, scores);
 
           return (
             <Card key={round.id} className="p-5">
