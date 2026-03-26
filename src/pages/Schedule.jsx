@@ -5,10 +5,11 @@ import Card from '../components/ui/Card';
 import Spinner from '../components/ui/Spinner';
 import { Link } from 'react-router-dom';
 
-function isRoundComplete(round, golfers, scores) {
-  if (!golfers || golfers.length === 0) return false;
-  return golfers.every((golfer) => {
-    const key = `${round.id}_${golfer.id}`;
+function isRoundComplete(round, scores) {
+  const participants = round.foursomes.flatMap((f) => f.players);
+  if (participants.length === 0) return false;
+  return participants.every((golferId) => {
+    const key = `${round.id}_${golferId}`;
     return scores[key]?.gross != null;
   });
 }
@@ -27,7 +28,7 @@ export default function Schedule() {
       <h2 className="font-heading text-xl font-semibold text-masters-green mb-4">Schedule</h2>
       <div className="space-y-6">
         {sortedRounds.map((round) => {
-          const started = isRoundComplete(round, trip.golfers, scores);
+          const started = isRoundComplete(round, scores);
 
           return (
             <Card key={round.id} className="p-5">
