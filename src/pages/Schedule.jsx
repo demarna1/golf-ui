@@ -1,5 +1,6 @@
 import { useTrip } from '../hooks/useTrip';
 import { useScores } from '../hooks/useScores';
+import { useWeather } from '../hooks/useWeather';
 import FoursomeDisplay from '../components/round/FoursomeDisplay';
 import Card from '../components/ui/Card';
 import Spinner from '../components/ui/Spinner';
@@ -18,10 +19,15 @@ export default function Schedule() {
   const { trip, loading: tripLoading } = useTrip();
   const { scores, loading: scoresLoading } = useScores(trip?.id);
 
+  const sortedRounds = trip ? [...trip.rounds].sort((a, b) => a.order - b.order) : [];
+  const today = new Date().toISOString().split('T')[0];
+  const futureDates = sortedRounds
+    .filter((r) => r.date >= today && !isRoundComplete(r, scores))
+    .map((r) => r.date);
+  const weather = useWeather(trip?.location, futureDates);
+
   if (tripLoading || scoresLoading) return <Spinner />;
   if (!trip) return <p className="text-center text-gray-500 py-12">No active trip found.</p>;
-
-  const sortedRounds = [...trip.rounds].sort((a, b) => a.order - b.order);
 
   return (
     <div>
@@ -54,9 +60,13 @@ export default function Schedule() {
                     </p>
                   )}
                 </div>
-                {started && (
+                {started ? (
                   <span className="text-sm text-gray-400 font-body italic">Completed</span>
-                )}
+                ) : weather[round.date] ? (
+                  <span className="text-sm font-body text-gray-500">
+                    {weather[round.date].emoji} {weather[round.date].temp}°F
+                  </span>
+                ) : null}
               </div>
               {started ? (
                 <Link
