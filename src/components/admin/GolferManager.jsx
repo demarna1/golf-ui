@@ -13,7 +13,8 @@ export default function GolferManager({ trip }) {
   function handleFieldChange(idx, field, value) {
     setGolfers((prev) => {
       const next = [...prev];
-      next[idx] = { ...next[idx], [field]: (field === 'handicapIndex' || field === 'overUnderLine') ? Number(value) : value };
+      const numericFields = ['handicapIndex', 'overUnderLine'];
+      next[idx] = { ...next[idx], [field]: numericFields.includes(field) ? Number(value) : value };
       return next;
     });
     setDirty(true);
@@ -71,37 +72,57 @@ export default function GolferManager({ trip }) {
 
       <div className="space-y-2">
         {golfers.map((golfer, idx) => (
-          <div key={golfer.id} className="flex items-center gap-3 bg-white rounded border border-gray-200 px-3 py-2">
-            <span className="text-xs text-gray-400 font-mono w-5">{idx + 1}</span>
-            <input
-              type="text"
-              value={golfer.name}
-              onChange={(e) => handleFieldChange(idx, 'name', e.target.value)}
-              placeholder="Name"
-              className="flex-1 rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-            />
-            <input
-              type="number"
-              step="0.1"
-              value={golfer.handicapIndex}
-              onChange={(e) => handleFieldChange(idx, 'handicapIndex', e.target.value)}
-              className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-            />
-            <input
-              type="number"
-              step="0.5"
-              value={golfer.overUnderLine || ''}
-              onChange={(e) => handleFieldChange(idx, 'overUnderLine', e.target.value)}
-              placeholder="O/U"
-              className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
-            />
-            <button
-              onClick={() => handleRemove(idx)}
-              className="text-red-400 hover:text-red-600 text-sm px-1"
-              title="Remove golfer"
-            >
-              &times;
-            </button>
+          <div key={golfer.id} className="bg-white rounded border border-gray-200 px-3 py-2 space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-400 font-mono w-5">{idx + 1}</span>
+              <input
+                type="text"
+                value={golfer.name}
+                onChange={(e) => handleFieldChange(idx, 'name', e.target.value)}
+                placeholder="Name"
+                className="flex-1 rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+              />
+              <button
+                onClick={() => handleRemove(idx)}
+                className="text-red-400 hover:text-red-600 text-sm px-1"
+                title="Remove golfer"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="flex items-center gap-3 pl-8">
+              <label className="flex items-center gap-1.5">
+                <span className="text-xs text-gray-500">HCP</span>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={golfer.handicapIndex}
+                  onChange={(e) => handleFieldChange(idx, 'handicapIndex', e.target.value)}
+                  className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+              <label className="flex items-center gap-1.5">
+                <span className="text-xs text-gray-500">O/U</span>
+                <input
+                  type="number"
+                  step="0.5"
+                  value={golfer.overUnderLine || ''}
+                  onChange={(e) => handleFieldChange(idx, 'overUnderLine', e.target.value)}
+                  placeholder="—"
+                  className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+              <label className="flex items-center gap-1.5 flex-1">
+                <span className="text-xs text-gray-500">Injury</span>
+                <input
+                  type="text"
+                  value={golfer.injury || ''}
+                  onChange={(e) => handleFieldChange(idx, 'injury', e.target.value)}
+                  placeholder="None"
+                  className="flex-1 rounded border border-gray-300 px-2 py-1.5 text-sm focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+                />
+              </label>
+            </div>
           </div>
         ))}
       </div>

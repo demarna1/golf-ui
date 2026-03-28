@@ -1,4 +1,5 @@
 import { formatToPar } from '../../lib/leaderboard';
+import GolferName from '../ui/GolferName';
 
 export default function LeaderboardTable({ standings, rounds, viewMode }) {
   const countingRounds = rounds.filter((r) => r.countsToTotal);
@@ -44,7 +45,7 @@ export default function LeaderboardTable({ standings, rounds, viewMode }) {
                   {row.total !== null ? pos : '—'}
                 </td>
                 <td className="px-3 py-2.5 font-medium whitespace-nowrap">
-                  {row.golfer.name}
+                  <GolferName golfer={row.golfer} />
                 </td>
                 {countingRounds.map((r) => {
                   const s = row.roundScores[r.id];

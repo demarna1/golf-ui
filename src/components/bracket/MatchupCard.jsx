@@ -1,3 +1,5 @@
+import GolferName from '../ui/GolferName';
+
 function PlayerRow({ golfer, seed, score, isWinner, isLoser }) {
   if (!golfer) {
     return (
@@ -18,7 +20,9 @@ function PlayerRow({ golfer, seed, score, isWinner, isLoser }) {
     >
       <span className="text-sm font-body truncate">
         <span className="text-xs text-gray-500 mr-1">({seed})</span>
-        {golfer.name.charAt(0)}. {lastName}
+        <GolferName golfer={golfer}>
+          {golfer.name.charAt(0)}. {lastName}
+        </GolferName>
       </span>
       <span className="text-sm font-mono tabular-nums shrink-0">
         {score !== null ? score : '—'}

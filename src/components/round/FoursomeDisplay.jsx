@@ -1,4 +1,5 @@
 import Card from '../ui/Card';
+import GolferName from '../ui/GolferName';
 
 export default function FoursomeDisplay({ foursomes, golfers }) {
   const golferMap = {};
@@ -23,7 +24,11 @@ export default function FoursomeDisplay({ foursomes, golfers }) {
           <ul className="space-y-1">
             {group.players.map((golferId) => (
               <li key={golferId} className="text-sm font-body">
-                {golferMap[golferId]?.name || golferId}
+                {golferMap[golferId] ? (
+                  <GolferName golfer={golferMap[golferId]} />
+                ) : (
+                  golferId
+                )}
               </li>
             ))}
           </ul>
