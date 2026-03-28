@@ -11,7 +11,7 @@ export default function GolferManager({ trip }) {
   function handleFieldChange(idx, field, value) {
     setGolfers((prev) => {
       const next = [...prev];
-      next[idx] = { ...next[idx], [field]: field === 'handicapIndex' ? Number(value) : value };
+      next[idx] = { ...next[idx], [field]: (field === 'handicapIndex' || field === 'overUnderLine') ? Number(value) : value };
       return next;
     });
     setDirty(true);
@@ -70,6 +70,14 @@ export default function GolferManager({ trip }) {
               step="0.1"
               value={golfer.handicapIndex}
               onChange={(e) => handleFieldChange(idx, 'handicapIndex', e.target.value)}
+              className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
+            />
+            <input
+              type="number"
+              step="0.5"
+              value={golfer.overUnderLine || ''}
+              onChange={(e) => handleFieldChange(idx, 'overUnderLine', e.target.value)}
+              placeholder="O/U"
               className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm font-mono text-center focus:border-masters-green focus:ring-1 focus:ring-masters-green"
             />
             <button
