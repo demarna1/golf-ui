@@ -39,12 +39,16 @@ function SplitBar({ overVoters, underVoters }) {
         )}
       </div>
       <div className="flex justify-between mt-1">
-        <p className="text-xs text-gray-400 truncate max-w-[45%]">
-          {overVoters.join(', ') || '\u00A0'}
-        </p>
-        <p className="text-xs text-gray-400 truncate max-w-[45%] text-right">
-          {underVoters.join(', ') || '\u00A0'}
-        </p>
+        <div className="text-xs text-gray-400 max-w-[45%]">
+          {overVoters.map((name) => (
+            <div key={name}>{name}</div>
+          ))}
+        </div>
+        <div className="text-xs text-gray-400 text-right max-w-[45%]">
+          {underVoters.map((name) => (
+            <div key={name}>{name}</div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -85,6 +89,7 @@ function NamePicker({ golfers, onSelect }) {
 function BetCard({ golfer, bet, voterName }) {
   const overVoters = bet?.votes?.over || [];
   const underVoters = bet?.votes?.under || [];
+  const isSelf = golfer.name === voterName;
   const myPick = overVoters.includes(voterName)
     ? 'over'
     : underVoters.includes(voterName)
@@ -92,6 +97,7 @@ function BetCard({ golfer, bet, voterName }) {
       : null;
 
   function handlePick(side) {
+    if (isSelf) return;
     placeBet(golfer.tripId, golfer.id, voterName, side);
   }
 
@@ -111,6 +117,7 @@ function BetCard({ golfer, bet, voterName }) {
             size="sm"
             variant={myPick === 'over' ? 'danger' : 'ghost'}
             onClick={() => handlePick('over')}
+            disabled={isSelf}
           >
             Over
           </Button>
@@ -118,11 +125,15 @@ function BetCard({ golfer, bet, voterName }) {
             size="sm"
             variant={myPick === 'under' ? 'primary' : 'ghost'}
             onClick={() => handlePick('under')}
+            disabled={isSelf}
           >
             Under
           </Button>
         </div>
       </div>
+      {isSelf && (
+        <p className="text-xs text-gray-400 mt-1 italic">You can&apos;t bet on yourself</p>
+      )}
       <SplitBar overVoters={overVoters} underVoters={underVoters} />
     </Card>
   );
