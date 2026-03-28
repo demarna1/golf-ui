@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { updateGolfers } from '../../firebase/tripService';
+import { resetBets } from '../../firebase/betService';
 import Button from '../ui/Button';
 
 export default function GolferManager({ trip }) {
@@ -7,6 +8,7 @@ export default function GolferManager({ trip }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [dirty, setDirty] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   function handleFieldChange(idx, field, value) {
     setGolfers((prev) => {
@@ -38,6 +40,19 @@ export default function GolferManager({ trip }) {
       setError(err.message);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleResetBets() {
+    if (!confirm('Reset all votes? This cannot be undone.')) return;
+    setResetting(true);
+    setError(null);
+    try {
+      await resetBets(trip.id);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setResetting(false);
     }
   }
 
@@ -89,6 +104,12 @@ export default function GolferManager({ trip }) {
             </button>
           </div>
         ))}
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-gray-200">
+        <Button variant="danger" size="sm" onClick={handleResetBets} disabled={resetting}>
+          {resetting ? 'Resetting...' : 'Reset All Votes'}
+        </Button>
       </div>
     </div>
   );

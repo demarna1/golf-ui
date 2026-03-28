@@ -5,6 +5,8 @@ import {
   onSnapshot,
   doc,
   setDoc,
+  getDocs,
+  writeBatch,
   arrayUnion,
   arrayRemove,
 } from 'firebase/firestore';
@@ -30,6 +32,15 @@ export function subscribeBets(tripId, callback, onError) {
       if (onError) onError(err);
     }
   );
+}
+
+export async function resetBets(tripId) {
+  const q = query(collection(db, 'bets'), where('tripId', '==', tripId));
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) return;
+  const batch = writeBatch(db);
+  snapshot.forEach((docSnap) => batch.delete(docSnap.ref));
+  return batch.commit();
 }
 
 export function placeBet(tripId, golferId, voterName, side) {
