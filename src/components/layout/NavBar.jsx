@@ -4,6 +4,7 @@ const links = [
   { to: '/', label: 'Schedule' },
   { to: '/leaderboard', label: 'Leaderboard' },
   { to: '/bracket', label: 'Bracket' },
+  { to: '/bonus', label: 'Bonus' },
 ];
 
 export default function NavBar() {
