@@ -8,10 +8,16 @@ export function useBets(tripId) {
   useEffect(() => {
     if (!tripId) return;
     setLoading(true);
-    return subscribeBets(tripId, (data) => {
-      setBets(data);
-      setLoading(false);
-    });
+    return subscribeBets(
+      tripId,
+      (data) => {
+        setBets(data);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      }
+    );
   }, [tripId]);
 
   return { bets, loading };
