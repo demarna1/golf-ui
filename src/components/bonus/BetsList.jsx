@@ -5,6 +5,7 @@ import { placeBet } from '../../firebase/betService';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Spinner from '../ui/Spinner';
+import GolferName from '../ui/GolferName';
 
 const LS_KEY = 'bets_voter_name';
 
@@ -106,7 +107,7 @@ function BetCard({ golfer, bet, voterName }) {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-heading text-base font-semibold text-masters-green">
-            {golfer.name}
+            <GolferName golfer={golfer} />
           </h3>
           <p className="text-sm text-gray-500 font-mono">
             O/U {golfer.overUnderLine}

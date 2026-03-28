@@ -1,4 +1,5 @@
 import { computeCourseHandicap } from '../../lib/leaderboard';
+import GolferName from '../ui/GolferName';
 
 export default function RoundTable({ round, golfers, scores }) {
   const participants = round.foursomes.flatMap((g) => g.players);
@@ -47,7 +48,7 @@ export default function RoundTable({ round, golfers, scores }) {
                 {row.gross !== null ? idx + 1 : '—'}
               </td>
               <td className="px-3 py-2.5 font-medium whitespace-nowrap">
-                {row.golfer.name}
+                <GolferName golfer={row.golfer} />
               </td>
               <td className="px-3 py-2.5 text-center font-mono font-semibold">
                 {row.gross ?? '—'}
